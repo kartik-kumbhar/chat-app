@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 
 const connectDB = async () => {
-    await mongoose.connect(`${process.env.MONGODB_URI}/chat-app`)
-        .then(() => console.log("DB Connected!!"))
-        .catch(err => console.log("error:" + err));
-
-}
-
-export {
-    connectDB
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log("MongoDB Connected Successfully");
+  } catch (err) {
+    console.error("MongoDB Connection Error:", err.message);
+    process.exit(1);
+  }
 };
+
+export { connectDB };

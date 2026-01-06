@@ -7,62 +7,58 @@ import userRouter from "./routes/userRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
 import { Server } from "socket.io";
 
-
-
-
-//Create Express app and HTTP server 
 const app = express();
 const server = http.createServer(app);
 
-//Middleware setup
-app.use(cors());
+// Middleware
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://chat-app-roan-xi.vercel.app"
+  ],
+  credentials: true
+}));
+
 app.use(express.json({ limit: "4mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-//
-
-
-
-//Connect to MongoDB
+// DB
 connectDB();
 
-// Route Setup
-// app.use("/api/status",(req,res)=>{res.send("Server is Live")});
+// Routes
 app.use("/auth", userRouter);
 app.use("/messages", messageRouter);
 
-const PORT = process.env.PORT || 5000;
-app.get("/", (req, res) => {
-    res.send("Hello World")
-});
+app.get("/", (req, res) => res.send("Server is Live"));
 
-
-// Initialize socket.io server
+// SOCKET.IO
 export const io = new Server(server, {
-    cors: { origin: "*" }
+  cors: {
+    origin: [
+      "http://localhost:5173",
+      "https://chat-app-roan-xi.vercel.app"
+    ],
+    credentials: true
+  }
 });
 
-//Store online users
-export const userSocketMap = {}; //store the data in form of {userId: socketId}
+export const userSocketMap = {};
 
-// Socket.io connection handler
-io.on("connection",(socket)=>{
-    const userId=socket.handshake.query.userId;
-    console.log("User Connected ",userId);
+io.on("connection", (socket) => {
+  const userId = socket.handshake.query?.userId;
+  console.log("User Connected:", userId);
 
-    if(userId){
-        userSocketMap[userId] = socket.id;
-    }
+  if (userId) userSocketMap[userId] = socket.id;
 
-    //Emit online users to all connected clients
-    io.emit("getOnlineUsers",Object.keys(userSocketMap));
+  io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
-    socket.on("disconnect",()=>{
-        console.log("User Disconnected ",userId);
-        delete userSocketMap[userId];
-        io.emit("getOnlineUsers",Object.keys(userSocketMap));
-    })
-})
+  socket.on("disconnect", () => {
+    console.log("User Disconnected:", userId);
+    delete userSocketMap[userId];
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  });
+});
 
-
-server.listen(PORT, () => console.log("Server started on PORT:" + PORT)); 
+// START SERVER
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => console.log("Server running on PORT " + PORT));
