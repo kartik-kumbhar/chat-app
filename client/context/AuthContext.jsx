@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 
 export const AuthContext = createContext();
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://chat-app-l9jw.onrender.com";
+const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://chat-app-sigma-red-52.vercel.app";
 
 // Axios Base URL
 axios.defaults.baseURL = backendUrl;
@@ -55,7 +55,9 @@ export const AuthProvider = ({ children }) => {
         setAuthUser(data.userData);
         connectSocket(data.userData);
 
-        axios.defaults.headers.common["token"] = data.token;
+        // axios.defaults.headers.common["token"] = data.token;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+
         setToken(data.token);
         localStorage.setItem("token", data.token);
 
@@ -97,7 +99,9 @@ export const AuthProvider = ({ children }) => {
   // ---------------- INIT ----------------
   useEffect(() => {
     if (token) {
-      axios.defaults.headers.common["token"] = token;
+      // axios.defaults.headers.common["token"] = token;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
       checkAuth();
     }
   }, []);
