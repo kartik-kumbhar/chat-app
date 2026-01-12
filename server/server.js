@@ -36,7 +36,7 @@ export const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:5173",
-      "https://chat-app-roan-xi.vercel.app"
+      "https://chat-app-frontend-pink-nu.vercel.app"
     ],
     credentials: true
   }
