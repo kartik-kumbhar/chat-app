@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 
 export const AuthContext = createContext();
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://chat-app-sigma-red-52.vercel.app";
+const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://chat-app-axfd.onrender.com";
 
 // Axios Base URL
 axios.defaults.baseURL = backendUrl;
