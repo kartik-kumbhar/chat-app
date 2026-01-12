@@ -21,10 +21,12 @@ app.use(cors({
     "http://localhost:5173",
     "https://chat-app-frontend-pink-nu.vercel.app"
   ],
-  credentials: true
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization","token"]
 }));
 
-app.options("/*", cors());
+app.options("*", cors());
 
 app.use(express.json({ limit: "4mb" }));
 app.use(express.urlencoded({ extended: true }));
