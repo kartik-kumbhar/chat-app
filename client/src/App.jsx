@@ -19,7 +19,7 @@ const App = () => {
   }
 
   return (
-    <div className="bg-[url('./src/assets/bgImage.svg')] bg-center bg-contain">
+    <div className="bg-[url('/bgImage.svg')] bg-center bg-contain">
       <Toaster position="top-center" />
       <Routes>
         <Route
