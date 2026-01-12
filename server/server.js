@@ -10,12 +10,20 @@ import { Server } from "socket.io";
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://chat-app-frontend-pink-nu.vercel.app" 
+];
+
 // Middleware
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://chat-app-roan-xi.vercel.app"
-  ],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed"));
+    }
+  },
   credentials: true
 }));
 
@@ -59,11 +67,11 @@ io.on("connection", (socket) => {
   });
 });
 
-// START SERVER
-if (process.env.NODE_ENV != "production") {
-  const PORT = process.env.PORT || 5000;
-  server.listen(PORT, () => console.log("Server running on PORT " + PORT));
-}
+// START SERVER 
+// if (process.env.NODE_ENV != "production") {
+//   const PORT = process.env.PORT || 5000;
+//   server.listen(PORT, () => console.log("Server running on PORT " + PORT));
+// }
 
 export default server;
 
