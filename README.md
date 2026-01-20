@@ -6,7 +6,7 @@ It allows users to **sign up, log in, and chat instantly** with other users with
 ---
 
 ## 🚀 Live Demo
-🔗 https://chat-app-frontend-pink-nu.vercel.app/login
+🔗 https://chat-app-frontend-pink-nu.vercel.app
 
 ---
 
