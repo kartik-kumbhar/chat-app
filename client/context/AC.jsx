@@ -3,11 +3,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-export const AuthContext = createContext(); 
+export const AuthContext = createContext();
 
 const backendUrl =
   import.meta.env.VITE_BACKEND_URL ||
-  "https://chat-app-4wn7.onrender.com";
+  "https://chat-app-axfd.onrender.com";
 
 // Set Axios base URL globally
 axios.defaults.baseURL = backendUrl;
